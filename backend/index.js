@@ -41,8 +41,25 @@ app.post('/tasks', function (req, res) {
 
 
 app.patch('/tasks/:id', function (req, res) {
-    res.send("backend works")
+    fs.readFile("todos.json", "utf-8", function (err, data) {
+        if (err) {
+            res.status(404).json({ "message": "Data not found" });
+            return;
+        }
+        const todos = JSON.parse(data);
+        const id = req.params.id;
+        const index = todos.findIndex(todo => todo.id === id);
+        if (index == -1) {
+            res.status(404).json({ message: "Todo Not Found" });
+            return;
+        }
+        todos[index].isCompleted = !todos[index].isCompleted;
+        fs.writeFileSync('todos.json', JSON.stringify(todos));
+        res.status(200).json(todos[index]);
+    })
 })
+
+
 app.delete('/tasks/:id', function (req, res) {
     res.send("backend works")
 })
