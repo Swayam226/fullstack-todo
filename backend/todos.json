@@ -3,5 +3,15 @@
     "id": "51204ec2-4151-4c5d-8255-63d2ac68e205",
     "title": "visit park",
     "isCompleted": false
+  },
+  {
+    "id": "8c7fe12e-9405-48fe-aac9-958bf184f8de",
+    "title": "play cricket",
+    "isCompleted": false
+  },
+  {
+    "id": "a84cf07a-46df-4093-b0d1-c2d2b3755978",
+    "title": "write journal",
+    "isCompleted": false
   }
 ]
