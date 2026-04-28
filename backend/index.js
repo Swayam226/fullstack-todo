@@ -61,7 +61,19 @@ app.patch('/tasks/:id', function (req, res) {
 
 
 app.delete('/tasks/:id', function (req, res) {
-    res.send("backend works")
+    fs.readFile("todos.json", "utf-8", function (err, data) {
+        if (err) {
+            res.status(404).json({ message: "Data not found" });
+            return;
+        }
+        const todos = JSON.parse(data);
+        const id = req.params.id;
+        const index = todos.findIndex(todo => todo.id === id);
+        const temp = todos[index];
+        todos.splice(index, 1);
+        fs.writeFileSync("todos.json", JSON.stringify(todos));
+        res.status(200).json(temp)
+    })
 })
 
 
