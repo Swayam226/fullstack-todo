@@ -7,8 +7,13 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [currentTask, setcurrentTask] = useState("");
 
-  function createTask() {
-    console.log("clicked");
+  async function createTask() {
+    console.log("clicked for post");
+    const res = await axios.post("http://localhost:3000/tasks", {
+      title: currentTask,
+    });
+    setTasks([...tasks, res.data]);
+    setcurrentTask("");
   }
 
   useEffect(() => {
@@ -26,8 +31,8 @@ function App() {
         <span className="text-5xl font-medium">Taskify</span>
       </header>
 
-      <main className="grow flex items-center justify-center pb-92">
-        <div className="max-w-md w-full bg-white shadow-md border-2 hover:shadow-lg border-[#242323] rounded-xl p-8">
+      <main className="grow flex items-center justify-center pb-10">
+        <div className="max-w-md w-full bg-white shadow-xs border hover:shadow-md transition duration-50 ease-in border-[#242323] rounded-xl p-8">
           <input
             type="text"
             value={currentTask}
@@ -43,13 +48,16 @@ function App() {
             Create Task
           </button>
 
-          <div className="p-3 w-full bg-red-300 rounded-lg flex flex-col gap-4">
+          <div className="p-3 w-full bg-red-200 rounded-lg flex flex-col gap-4 overflow-y-auto max-h-68">
             {tasks.length === 0 ? (
               <span className="text-red-500">No Tasks Found :/</span>
             ) : (
               tasks.map((task) => {
                 return (
-                  <div className="p-4 w-full h-full bg-[rgb(245,245,220)] flex flex-row gap-2 justify-between">
+                  <div
+                    key={task.id}
+                    className="p-4 w-full h-full bg-[rgb(245,245,220)] flex flex-row gap-2 justify-between"
+                  >
                     <div className="flex flex-col gap-2">
                       <span className="text-xl font-semibold">
                         {task.title}
