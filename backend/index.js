@@ -34,7 +34,7 @@ app.post('/tasks', function (req, res) {
             isCompleted: isCompleted
         }
         todos.push(todo);
-        fs.writeFileSync("todos.json", JSON.stringify(todos));
+        fs.writeFileSync("todos.json", JSON.stringify(todos, null, 2));
         res.status(201).json(todo);
     })
 })
@@ -54,7 +54,7 @@ app.patch('/tasks/:id', function (req, res) {
             return;
         }
         todos[index].isCompleted = !todos[index].isCompleted;
-        fs.writeFileSync('todos.json', JSON.stringify(todos));
+        fs.writeFileSync('todos.json', JSON.stringify(todos, null, 2));
         res.status(200).json(todos[index]);
     })
 })
@@ -71,7 +71,7 @@ app.delete('/tasks/:id', function (req, res) {
         const index = todos.findIndex(todo => todo.id === id);
         const temp = todos[index];
         todos.splice(index, 1);
-        fs.writeFileSync("todos.json", JSON.stringify(todos));
+        fs.writeFileSync("todos.json", JSON.stringify(todos, null, 2));
         res.status(200).json(temp)
     })
 })
