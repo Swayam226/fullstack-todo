@@ -16,6 +16,18 @@ function App() {
     setcurrentTask("");
   }
 
+  async function completeTask(id) {
+    const res = await axios.patch(`http://localhost:3000/tasks/${id}`);
+    // setTasks([...tasks, res.data]);
+    const newTasks = tasks.map((task) => {
+      if (task.id === id) {
+        return res.data;
+      }
+      return task;
+    });
+    setTasks(newTasks);
+  }
+
   useEffect(() => {
     async function fetchTodos() {
       const res = await axios.get("http://localhost:3000/tasks");
@@ -69,7 +81,10 @@ function App() {
                       )}
                     </div>
                     <div className="flex flex-col gap-2">
-                      <button className="border rounded-sm text-xs p-1">
+                      <button
+                        onClick={() => completeTask(task.id)}
+                        className="border rounded-sm text-xs p-1"
+                      >
                         Mark as Done
                       </button>
                       <button className="border rounded-sm text-xs p-1">
