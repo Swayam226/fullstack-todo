@@ -28,6 +28,12 @@ function App() {
     setTasks(newTasks);
   }
 
+  async function deleteTask(id) {
+    const res = await axios.delete(`http://localhost:3000/tasks/${id}`);
+    const newTasks = tasks.filter((task) => task.id !== id);
+    setTasks(newTasks);
+  }
+
   useEffect(() => {
     async function fetchTodos() {
       const res = await axios.get("http://localhost:3000/tasks");
@@ -87,7 +93,10 @@ function App() {
                       >
                         Mark as Done
                       </button>
-                      <button className="border rounded-sm text-xs p-1">
+                      <button
+                        onClick={() => deleteTask(task.id)}
+                        className="border rounded-sm text-xs p-1"
+                      >
                         Delete
                       </button>
                     </div>
