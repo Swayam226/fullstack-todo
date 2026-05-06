@@ -12,7 +12,7 @@ function authMiddleware(req, res, next) {
             res.status(403).json({ message: "deined entry" });
         }
     } catch (error) {
-        res.staus(403).json({ "message": "invalid token" });
+        res.status(403).json({ "message": "invalid token" });
         console.error(error);
     }
 }
