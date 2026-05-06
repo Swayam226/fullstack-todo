@@ -1,7 +1,5 @@
 const express = require('express');
-// const crypto = require('crypto');
 const cors = require('cors');
-// const fs = require('fs');
 
 const authRoutes = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
