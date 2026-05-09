@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/api";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
   const [currentTask, setcurrentTask] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/auth");
+    }
+  }, []);
 
   async function createTask() {
     console.log("clicked for post");
-    const res = await axios.post("http://localhost:3000/tasks", {
+    const res = await api.post("/tasks", {
       title: currentTask,
     });
     setTasks([...tasks, res.data]);
@@ -16,7 +25,7 @@ export default function Home() {
   }
 
   async function completeTask(id) {
-    const res = await axios.patch(`http://localhost:3000/tasks/${id}`);
+    const res = await api.patch(`/tasks/${id}`);
     // setTasks([...tasks, res.data]);
     const newTasks = tasks.map((task) => {
       if (task.id === id) {
@@ -28,14 +37,14 @@ export default function Home() {
   }
 
   async function deleteTask(id) {
-    const res = await axios.delete(`http://localhost:3000/tasks/${id}`);
+    const res = await api.delete(`/tasks/${id}`);
     const newTasks = tasks.filter((task) => task.id !== id);
     setTasks(newTasks);
   }
 
   useEffect(() => {
     async function fetchTodos() {
-      const res = await axios.get("http://localhost:3000/tasks");
+      const res = await api.get("/tasks");
       console.log(res.data);
       setTasks(res.data);
     }
