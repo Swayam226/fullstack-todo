@@ -39,6 +39,7 @@ export default function Home() {
   async function deleteTask(id) {
     const res = await api.delete(`/tasks/${id}`);
     const newTasks = tasks.filter((task) => task.id !== id);
+    console.log(res.data);
     setTasks(newTasks);
   }
 
