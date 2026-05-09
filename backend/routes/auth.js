@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
+const authMiddleware = require("../middleware/auth")
 
 
 router.post('/signup', function (req, res) {
@@ -53,6 +54,10 @@ router.post('/signin', function (req, res) {
             }
         }
     })
+})
+
+router.get('/me', authMiddleware, function (req, res) {
+    res.json({ username: req.username });
 })
 
 module.exports = router;
